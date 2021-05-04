@@ -216,9 +216,20 @@ class Experiment:
         ts = self.studentCriteriy(X[:, 1:], Y, y_aver, n, m)
         print('\nКритерій Стьюдента:\n', ts)
         res = [t for t in ts if t > t_student]
+        res1 = [0]*11
         final_k = [B[i] for i in range(len(ts)) if ts[i] in res]
+        insignificant_k = [B[i] for i in range(len(ts)) if ts[i] not in res]
         print('\nКоефіцієнти {} статистично незначущі, тому ми виключаємо їх з рівняння.'.format(
             [round(i, 3) for i in B if i not in final_k]))
+
+        for i in range (len(ts)):
+            if B[i] in insignificant_k:
+                res1[i]=B[i]
+            else:
+                res1[i]=0
+        y = '{} + {}*x1 + {}*x2 + {}*x3 + {}*x1x2 + {}*x1x3  + {}*x2x3 + {}*x1x2x3 + {}*x1^2 + {}*x2^2 + {}*x3^2'
+        print("Рівняння регресії з незначущими коефіцієнтами: \n", y.format(*res1))
+
 
         y_new = []
         for j in range(n):
